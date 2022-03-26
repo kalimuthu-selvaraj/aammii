@@ -357,6 +357,10 @@ class CartController extends Controller
             }
 
             try {
+                /**
+                 * Authour : kaalee
+                 * Modified for mobile quantity update and create new function main class
+                 */
                 $result = Cart::updateMobileItems($updateCart);
 
                 if (! $result) {
