@@ -1,0 +1,1 @@
+<link rel="stylesheet" href="{{ bagisto_asset('vendor/webkul/mobikul/assets/css/mobikul.css') }}">

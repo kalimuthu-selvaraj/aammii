@@ -1,0 +1,29 @@
+{
+    "name": "webkul/laravel-mobikul-api-transformer",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Vivek Sharma",
+            "email": "viveksh047@webkul.com"
+        }
+    ],
+
+    "description": "This package is used for getting Api",
+
+    "require": {
+    },
+    "autoload": {
+        "psr-4": {
+            "Webkul\\MobikulApiTransformer\\": "/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Webkul\\API\\MobikulApiTransformerServiceProvider"
+            ],
+            "aliases": {}
+        }
+    },
+    "minimum-stability": "dev"
+}

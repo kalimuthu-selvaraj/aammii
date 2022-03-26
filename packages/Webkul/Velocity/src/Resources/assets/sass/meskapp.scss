@@ -1,0 +1,185 @@
+@import "main/meskvariables";
+
+body {
+    background: $mesk-theme-color;
+    font-family: $mesk-font-style;
+}
+
+* {
+    font-family: $mesk-font-style;
+}
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    font-family: $mesk-font-title-style;
+}
+
+#top {
+    background-color: $mesk-dark-color;
+    color: $white-color;
+
+    .btn-link{
+        color: $white-color;
+    }
+    .account-modal{
+        color: $mesk-dark-font-color;
+    }
+}
+header {
+    #search-form {
+        .btn-group {
+            select {
+                border: none;
+            }
+        }
+
+        input {
+            border: none;
+        }
+
+        #header-search-icon {
+            background-color: $mesk-dark-btn-color;
+        }
+    }
+}
+
+.slider-container-texture {
+    background-image:url("../images/home_texture.png");
+    background-position: center;
+    background-repeat: repeat-x;
+    position: absolute;
+    bottom: -1%;
+    height: 16%;
+    width: 100%;
+}
+
+.main-content-wrapper { 
+
+    .content-list {
+        ul {
+            background-color: transparent;
+
+            li{
+                a {
+                    color: $mesk-dark-color;
+                }
+            }
+
+            li:hover {
+                background: transparent;
+            }
+        }
+    }
+
+    .main-category {
+        border-top: none;
+        border-bottom: none;
+    }
+}
+
+.main-container-wrapper {
+    .sticky-header{
+        background: $mesk-theme-color;
+    }
+}
+
+.product-card-new {
+    width: 240px;
+}
+
+.add-to-cart-btn {
+    .btn-add-to-cart {
+        background-color: $mesk-dark-btn-color!important;
+        border-color: $mesk-dark-border-color!important;
+    }
+}
+
+.theme-btn, .theme-btn:hover,
+.btn-add-to-cart:hover {
+    background-color: $mesk-dark-btn-color!important;
+    border-color: $mesk-dark-border-color!important;
+
+    &.light {
+        color: $mesk-dark-font-color !important;
+        border-color: $mesk-dark-border-color!important;
+    }
+}
+.sticker {
+    top: 0px;
+    left: 0px;
+    border-radius: 0px;
+    &.sale {
+        background-color: $mesk-offer-badge-bgcolor;
+    }
+
+    &.new {
+        background-color: $mesk-new-badge-bgcolor;
+    }
+}
+.within-circle  {
+    background-color: $white-color!important;
+}
+
+.social-icons {
+    color: $mesk-social-icon-color!important;
+}
+i.within-circle {
+    border-radius: 0%;
+    width: 35px;
+    height: 35px;
+    padding: 6px;
+}
+
+.rango-view-list-container {
+    &.active {
+        background-color: $mesk-dark-color!important;
+    }
+}
+
+.rango-view-grid-container {
+    &.active {
+        background-color: $mesk-dark-color!important;
+    }
+}
+
+.customer-name {
+    background-color: $mesk-dark-color;
+}
+
+.footer {
+    .footer-content {
+        > .row {
+            background-color: $white-color;
+            .footer-ct-content {
+                > div {
+                    ul {
+                        li {
+                            a {
+                                color: $mesk-dark-font-color;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .footer-statics {
+            .software-description {
+                p {
+                    color: $mesk-dark-font-color;
+                }
+            }
+        }
+
+        .newsletter-subscription {
+            background-color: $mesk-client-subscription-bg;
+        }
+
+    }
+
+    .footer-copy-right {
+        background: $mesk-theme-color;
+        color: $mesk-dark-font-color;
+        line-height: 4rem;
+        height: 50px;
+    }
+}

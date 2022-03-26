@@ -1,0 +1,17 @@
+.mobikul-icon {
+    width: 48px;
+    height: 48px;
+    display: inline-block;
+    background-size: cover;
+    background-image: url("../images/Icon-mobikul.svg");
+}
+
+.active {
+    .mobikul-icon {
+        background-image: url("../images/Icon-mobikul-active.svg");
+    }
+
+    &.mobikul-icon {
+        background-image: url("../images/Icon-mobikul-active.svg");
+    }
+}
