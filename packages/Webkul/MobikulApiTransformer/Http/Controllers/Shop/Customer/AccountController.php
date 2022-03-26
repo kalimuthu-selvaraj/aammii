@@ -178,15 +178,17 @@ class AccountController extends Controller
                 'message'   => $validator->messages(),
             ], 200);
         }
-        
+		 
         $response = $this->broker()->sendResetLink(request(['email']));
+		 
+
         if ( $response == Password::RESET_LINK_SENT ) {
             return response()->json([
                 'success'   => true,
-                'message'   => trans('mobikul-api::app.api.customer.save-info.success-save'),
+                'message'   => trans('customer::app.forget_password.reset_link_sent'),
             ]);
         } else {
-            response()->json([
+            return response()->json([
                 'success'   => false,
                 'message'   => trans($response),
             ]);

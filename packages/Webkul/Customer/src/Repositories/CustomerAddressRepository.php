@@ -25,7 +25,7 @@ class CustomerAddressRepository extends Repository
     {
         Event::dispatch('customer.addresses.create.before');
 
-        $data['default_address'] = isset($data['default_address']) ? 1 : 0;
+        $data['default_address'] = isset($data['default_address']) && $data['default_address']==1 ? 1 : 0;
 
         $default_address = $this
             ->findWhere(['customer_id' => $data['customer_id'], 'default_address' => 1])
@@ -53,7 +53,7 @@ class CustomerAddressRepository extends Repository
 
         Event::dispatch('customer.addresses.update.before', $id);
 
-        $data['default_address'] = isset($data['default_address']) ? 1 : 0;
+        $data['default_address'] = isset($data['default_address']) && $data['default_address']==1 ? 1 : 0;
 
         $default_address = $this
             ->findWhere(['customer_id' => $address->customer_id, 'default_address' => 1])
