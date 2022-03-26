@@ -111,7 +111,9 @@
             "Webkul\\TableRate\\": "packages/Webkul/TableRate/src",
             "Webkul\\MobikulApiTransformer\\": "packages/Webkul/MobikulApiTransformer",
             "Webkul\\Mobikul\\": "packages/Webkul/Mobikul/src",
-            "Webkul\\PriceDropAlert\\": "packages/Webkul/PriceDropAlert/src"
+            "Webkul\\PriceDropAlert\\": "packages/Webkul/PriceDropAlert/src",
+            "Mesk\\OrderBulkUpdate\\": "packages/Mesk/OrderBulkUpdate/src"
+
         }
     },
     "autoload-dev": {

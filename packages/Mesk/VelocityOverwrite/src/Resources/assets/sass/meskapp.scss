@@ -1705,6 +1705,31 @@ q {
 		line-height: 1.2;
 	}
 	
+	.mobile-events {
+		position: relative;
+	}
+	.mobile-border-none {
+		border-right:none !important;
+	} 
+	.mobile-event-margin {
+		margin-left: 45px !important;
+	}
+	.mobile-event-image    {
+		position: relative;
+		width: 242px!important;
+		left: -20px;
+	}
+	.event-mobile-left {
+		left: 48px;
+	}
+	.mobile-video-left {
+		left: 78px !important;
+	}
+	.event-txt_al_rit{
+		text-align: left !important;
+		padding: 13px;
+	}
+	
 }
 
 .width-70 {
