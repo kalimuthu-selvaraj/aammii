@@ -533,10 +533,10 @@ class CheckoutController extends Controller
 
             $razorpayOrder = $api->order->create($orderData);
             
-            if( isset($razorpayOrder['id']) && $razorpayOrder['id']) {
+            if(isset($razorpayOrder['id'])) {
 
                 return response()->json([
-                    'success'           => true,
+                    'success'          => true,
                     'razorpay_order_id' => $razorpayOrder['id']
                 ], 200);
             } else {
@@ -545,6 +545,8 @@ class CheckoutController extends Controller
                     'message' => trans('mobikul-api::app.api.checkout.place-razorpay-order.went-wrong')
                 ], 200);
             }
+
+
         } else {
             return $authentication;
         }
