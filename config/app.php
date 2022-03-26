@@ -296,7 +296,8 @@ return [
         //Package for Mobilekul
         Webkul\MobikulApiTransformer\Providers\MobikulApiTransformerServiceProvider::class,
         Webkul\Mobikul\Providers\MobikulServiceProvider::class,
-        Webkul\PriceDropAlert\Providers\PriceDropAlertServiceProvider::class
+        Webkul\PriceDropAlert\Providers\PriceDropAlertServiceProvider::class,
+        Mesk\OrderBulkUpdate\Providers\OrderBulkUpdateServiceProvider::class
     ],
 
     /*
