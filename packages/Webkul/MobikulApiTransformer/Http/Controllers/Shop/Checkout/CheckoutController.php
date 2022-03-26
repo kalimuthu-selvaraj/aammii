@@ -533,7 +533,7 @@ class CheckoutController extends Controller
 
             $razorpayOrder = $api->order->create($orderData);
             
-            if(isset($razorpayOrder['id'])) {
+            if( isset($razorpayOrder['id']) && $razorpayOrder['id']) {
 
                 return response()->json([
                     'success'          => true,
@@ -546,7 +546,7 @@ class CheckoutController extends Controller
                 ], 200);
             }
 
-
+            
         } else {
             return $authentication;
         }
