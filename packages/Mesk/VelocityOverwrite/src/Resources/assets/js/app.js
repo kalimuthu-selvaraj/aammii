@@ -219,13 +219,18 @@ $(function() {
                                 );
                                 this.show(sidebarChild);
                             } else if (type == 'mouseout') {
-                                this.hide(subCategories1);
+\                                this.hide(subCategories1);
                             }
                         } else {
                             if (type == 'mouseout') {
+                                $(`.sub-categories`).hide();
                                 let sidebar = $(`#${id}`);
                                 // sidebar.hide();
                             }
+                        }
+                    }else {
+                        if (type == 'mouseout') {
+                            $(`.sub-categories`).hide();
                         }
                     }
                 }else if( Array.from(target.classList)[0] == 'sub-categories'){
@@ -233,7 +238,6 @@ $(function() {
                         $(`.sub-categories`).hide();
                 }
                 $(`#sidebar-level-0`).show();
-               
             },
 
             show: function(element) {
