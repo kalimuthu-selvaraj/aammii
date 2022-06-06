@@ -6,8 +6,9 @@ use Webkul\Ui\DataGrid\DataGrid;
 use Illuminate\Support\Facades\DB;
 use Webkul\Sales\Models\OrderAddress;
 use Webkul\Ui\DataGrid\Traits\ProvideDataGridPlus;
+use Illuminate\Support\Str;
 
-class OrderDataGrid extends DataGrid
+class OrderReportExportDataGrid extends DataGrid
 {
     use ProvideDataGridPlus;
 
@@ -32,6 +33,12 @@ class OrderDataGrid extends DataGrid
      */
     public function prepareQueryBuilder()
     {
+		if(Str::contains($_SERVER["HTTP_REFERER"],"start_date") || Str::contains($_SERVER["HTTP_REFERER"],"end_date") || Str::contains($_SERVER["HTTP_REFERER"],"status" )){	
+			$url=$_SERVER["APP_URL"]."/admin/orderreport?";
+ 			$find_filter=str_replace($url,"",$_SERVER["HTTP_REFERER"]);
+			$where_data = array();
+			parse_str( $find_filter, $where_data);
+		}
         $queryBuilder = DB::table('orders')
             ->leftJoin('addresses as order_address_shipping', function ($leftJoin) {
                 $leftJoin->on('order_address_shipping.order_id', '=', 'orders.id')
@@ -45,11 +52,24 @@ class OrderDataGrid extends DataGrid
                 $leftJoin->on('customers.id', '=', 'orders.customer_id');
             })->leftJoin('shipments', function ($leftJoin) {
                 $leftJoin->on('shipments.order_id', '=', 'orders.id');
+            })->leftJoin('order_payment', function ($leftJoin) {
+                $leftJoin->on('order_payment.order_id', '=', 'orders.id');
+            })->leftJoin('order_items', function ($leftJoin) {
+                $leftJoin->on('order_items.order_id', '=', 'orders.id');
             })
-            ->addSelect('orders.id', 'orders.increment_id', 'orders.base_sub_total', 'orders.base_grand_total', 'orders.created_at', 'channel_name', 'orders.status','customers.phone','shipments.carrier_title','shipments.track_number')
-            ->addSelect(DB::raw('CONCAT(' . DB::getTablePrefix() . 'order_address_billing.first_name, " ", ' . DB::getTablePrefix() . 'order_address_billing.last_name) as billed_to'))
-            ->addSelect(DB::raw('CONCAT(' . DB::getTablePrefix() . 'order_address_shipping.first_name, " ", ' . DB::getTablePrefix() . 'order_address_shipping.last_name) as shipped_to'));
-
+            ->addSelect('orders.id as ID', 'orders.created_at as DATE', 'orders.status as STATUS', 'channel_name as CHANNEL_NAME',DB::raw('CONCAT(' . DB::getTablePrefix() . 'customers.first_name, " ", ' . DB::getTablePrefix() . 'customers.last_name) as "CUSTOMER_NAME"'),'customers.phone as PHONE_NO','customers.email as EMAIL','order_address_billing.address1 as ADDRESS','order_address_billing.postcode as PINCODE',
+'order_address_billing.city as CITY','order_address_billing.state as STATE','order_address_billing.country as COUNTRY',
+'order_payment.method as PAYMENT','orders.grand_total as AMOUNT','orders.shipping_amount as SHIPPING_CHARGES','shipments.carrier_title as CARRIER_TITLE','shipments.track_number as TRACKING_NUMBER','order_items.name as PRODUCT_NAME',DB::raw(" '' as BARCODE"),DB::raw(" '' as HSNCODE"),'order_items.qty_ordered as QTY','order_items.price as ORDER_AMOUNT','order_items.total as Total','order_items.product_id as PRODUCT_ID');
+            //->addSelect(DB::raw('CONCAT(' . DB::getTablePrefix() . 'order_address_billing.first_name, " ", ' . DB::getTablePrefix() . 'order_address_billing.last_name) as "BILLING_TO"'))
+           // ->addSelect(DB::raw('CONCAT(' . DB::getTablePrefix() . 'order_address_shipping.first_name, " ", ' . DB::getTablePrefix() . 'order_address_shipping.last_name) as "SHIPPING_TO"'));
+		if(!empty($where_data)){
+			if(isset($where_data["start_date"]))
+				$queryBuilder->whereRaw(DB::raw('orders.created_at >= "'.$where_data["start_date"].'"'));
+			if(isset($where_data["end_date"]))
+				$queryBuilder->whereRaw(DB::raw('orders.created_at < "'.$where_data["end_date"].'"'));
+			if(isset($where_data["status"]) && $where_data["status"]!='')
+				$queryBuilder->whereRaw(DB::raw('orders.status = "'.$where_data["status"].'" '));
+  		}
         $this->addFilter('billed_to', DB::raw('CONCAT(' . DB::getTablePrefix() . 'order_address_billing.first_name, " ", ' . DB::getTablePrefix() . 'order_address_billing.last_name)'));
         $this->addFilter('shipped_to', DB::raw('CONCAT(' . DB::getTablePrefix() . 'order_address_shipping.first_name, " ", ' . DB::getTablePrefix() . 'order_address_shipping.last_name)'));
         $this->addFilter('increment_id', 'orders.increment_id');
@@ -183,18 +203,4 @@ class OrderDataGrid extends DataGrid
 		
     }
 
-    /**
-     * Prepare actions.
-     *
-     * @return void
-     */
-    public function prepareActions()
-    {
-        $this->addAction([
-            'title'  => trans('admin::app.datagrid.view'),
-            'method' => 'GET',
-            'route'  => 'admin.sales.orders.view',
-            'icon'   => 'icon eye-icon',
-        ]);
-    }
 }

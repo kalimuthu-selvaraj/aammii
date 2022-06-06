@@ -175,7 +175,9 @@
                                     <table>
                                         <thead>
                                             <tr>
-                                                <th>{{ __('admin::app.sales.orders.SKU') }}</th>
+											{{--<th>{{ __('admin::app.sales.orders.SKU') }}</th>--}}
+												<th>{{ __('admin::app.sales.orders.BARCODE') }}</th>
+												<th>{{ __('admin::app.sales.orders.HSNCODE') }}</th>
                                                 <th>{{ __('admin::app.sales.orders.product-name') }}</th>
                                                 <th>{{ __('admin::app.sales.orders.price') }}</th>
                                                 <th>{{ __('admin::app.sales.orders.qty') }}</th>
@@ -192,8 +194,9 @@
 
                                             @foreach ($invoice->items as $item)
                                                 <tr>
-                                                    <td>{{ $item->getTypeInstance()->getOrderedItem($item)->sku }}</td>
-
+												{{--<td>{{ $item->getTypeInstance()->getOrderedItem($item)->sku }}</td>--}}
+													<td>{{ $item->getTypeInstance()->getBarcode($item) }}</td>
+													<td>{{ $item->getTypeInstance()->getHsncode($item) }}</td>
                                                     <td>
                                                         {{ $item->name }}
 

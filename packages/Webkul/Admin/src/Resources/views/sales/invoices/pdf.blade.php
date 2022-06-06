@@ -253,6 +253,18 @@
                                 @if ($invoice->order->shipping_address)
                                     <td>
                                         {{ $invoice->order->shipping_title }}
+										@if(isset($invoice->carrier_title))
+											<div>
+												<label class="label">Carrier Title:</label>
+												<p class="value">{{ $invoice->carrier_title }}</p>
+											</div>
+										@endif
+										@if(isset($invoice->track_number))
+											<div>
+												<label class="label">Tracking Number:</label>
+												<p class="value">{{ $invoice->track_number }}</p>
+											</div>
+										@endif
                                     </td>
                                 @endif
                             </tr>
@@ -264,7 +276,9 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>{{ __('admin::app.sales.orders.SKU') }}</th>
+							{{--<th>{{ __('admin::app.sales.orders.SKU') }}</th>--}}
+								<th>{{ __('admin::app.sales.orders.BARCODE') }}</th>
+								<th>{{ __('admin::app.sales.orders.HSNCODE') }}</th>
                                 <th>{{ __('admin::app.sales.orders.product-name') }}</th>
                                 <th class="text-center">{{ __('admin::app.sales.orders.price') }}</th>
                                 <th class="text-center">{{ __('admin::app.sales.orders.qty') }}</th>
@@ -278,7 +292,9 @@
 
                             @foreach ($invoice->items as $item)
                                 <tr>
-                                    <td>{{ $item->getTypeInstance()->getOrderedItem($item)->sku }}</td>
+								{{--<td>{{ $item->getTypeInstance()->getOrderedItem($item)->sku }}</td>--}}
+									<td>{{ $item->getTypeInstance()->getBarcode($item) }}</td>
+									<td>{{ $item->getTypeInstance()->getHsncode($item) }}</td>
                                     <td>
                                         {{ $item->name }}
 
@@ -333,7 +349,7 @@
                     <tr>
                         <td><strong>{{ __('admin::app.sales.orders.grand-total') }}</strong></td>
                         <td><strong>-</strong></td>
-                        <td><strong>{!! core()->formatBasePrice($invoice->base_grand_total, true) !!}</strong></td>
+                        <td>{!! core()->formatBasePrice($invoice->base_grand_total, true) !!}</td>
                     </tr>
                 </table>
 
