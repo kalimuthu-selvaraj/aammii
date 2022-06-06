@@ -35,7 +35,7 @@ class OrderReportDataGrid extends DataGrid
     public function prepareQueryBuilder()
     {
 		if(Str::contains($_SERVER["HTTP_REFERER"],"start_date") || Str::contains($_SERVER["HTTP_REFERER"],"end_date") || Str::contains($_SERVER["HTTP_REFERER"],"status" )){	
-			$url=$_SERVER["APP_URL"].$_SERVER["PATH_INFO"]."?";
+			$url=$_SERVER["APP_URL"].parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)."?";
 			$find_filter=str_replace($url,"",$_SERVER["HTTP_REFERER"]);
 			$where_data = array();
 			parse_str( $find_filter, $where_data);
@@ -56,7 +56,8 @@ class OrderReportDataGrid extends DataGrid
 		})
 		->addSelect('orders.id', 'orders.increment_id', 'orders.base_sub_total', 'orders.base_grand_total', 'orders.created_at', 'channel_name', 'orders.status','customers.phone','shipments.carrier_title','shipments.track_number')
 		->addSelect(DB::raw('CONCAT(' . DB::getTablePrefix() . 'order_address_billing.first_name, " ", ' . DB::getTablePrefix() . 'order_address_billing.last_name) as billed_to'))
-		->addSelect(DB::raw('CONCAT(' . DB::getTablePrefix() . 'order_address_shipping.first_name, " ", ' . DB::getTablePrefix() . 'order_address_shipping.last_name) as shipped_to'));
+		->addSelect(DB::raw('CONCAT(' . DB::getTablePrefix() . 'order_address_shipping.first_name, " ", ' . DB::getTablePrefix() . 'order_address_shipping.last_name) as shipped_to'))
+		->addSelect(DB::raw('CONCAT(' . DB::getTablePrefix() . 'customers.first_name, " ", ' . DB::getTablePrefix() . 'customers.last_name) as customer_name'));
 		if(!empty($where_data)){
 			if(isset($where_data["start_date"]))
 				$queryBuilder->whereRaw(DB::raw('orders.created_at >= "'.$where_data["start_date"].'"'));
@@ -108,6 +109,15 @@ class OrderReportDataGrid extends DataGrid
         ]);
 		
 		$this->addColumn([
+            'index'      => 'customer_name',
+            'label'      => trans('admin::app.datagrid.customer-name'),
+            'type'       => 'string',
+            'searchable' => false,
+            'sortable'   => true,
+            'filterable' => true,
+        ]);
+
+		$this->addColumn([
             'index'      => 'phone',
             'label'      => trans('admin::app.datagrid.phone'),
             'type'       => 'phone',
@@ -125,14 +135,14 @@ class OrderReportDataGrid extends DataGrid
             'filterable' => true,
         ]);
 
-        $this->addColumn([
+        /*$this->addColumn([
             'index'      => 'channel_name',
             'label'      => trans('admin::app.datagrid.channel-name'),
             'type'       => 'string',
             'sortable'   => true,
             'searchable' => true,
             'filterable' => true,
-        ]);
+        ]);*/
 
         $this->addColumn([
             'index'      => 'status',
@@ -160,7 +170,7 @@ class OrderReportDataGrid extends DataGrid
             },
         ]);
 
-        $this->addColumn([
+        /* $this->addColumn([
             'index'      => 'billed_to',
             'label'      => trans('admin::app.datagrid.billed-to'),
             'type'       => 'string',
@@ -176,7 +186,7 @@ class OrderReportDataGrid extends DataGrid
             'searchable' => true,
             'sortable'   => true,
             'filterable' => true,
-        ]);
+        ]); */
 		
 		$this->addColumn([
             'index'      => 'carrier_title',
