@@ -6,6 +6,7 @@ use PDF;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Sales\Repositories\InvoiceRepository;
 use Webkul\Sales\Repositories\OrderRepository;
+use Webkul\Sales\Repositories\ShipmentRepository;
 
 class InvoiceController extends Controller
 {
@@ -29,6 +30,13 @@ class InvoiceController extends Controller
      * @var \Webkul\Sales\Repositories\InvoiceRepository
      */
     protected $invoiceRepository;
+	
+	/**
+     * ShipmentRepository object
+     *
+     * @var \Webkul\Sales\Repositories\ShipmentRepository
+     */
+    protected $shipmentRepository;
 
     /**
      * Create a new controller instance.
@@ -39,7 +47,8 @@ class InvoiceController extends Controller
      */
     public function __construct(
         OrderRepository $orderRepository,
-        InvoiceRepository $invoiceRepository
+        InvoiceRepository $invoiceRepository,
+		ShipmentRepository $shipmentRepository
     ) {
         $this->middleware('admin');
 
@@ -48,6 +57,8 @@ class InvoiceController extends Controller
         $this->orderRepository = $orderRepository;
 
         $this->invoiceRepository = $invoiceRepository;
+		
+		$this->shipmentRepository = $shipmentRepository;
     }
 
     /**
@@ -143,6 +154,12 @@ class InvoiceController extends Controller
     public function print($id)
     {
         $invoice = $this->invoiceRepository->findOrFail($id);
+		
+		$shipmentDetails=$this->shipmentRepository->where("order_id",$invoice->order_id)->first();
+		if(isset($shipmentDetails->carrier_title))
+			$invoice->carrier_title =$shipmentDetails->carrier_title;
+		if(isset($shipmentDetails->track_number))
+			$invoice->track_number =$shipmentDetails->track_number;
 
         $html = view('admin::sales.invoices.pdf', compact('invoice'))->render();
 

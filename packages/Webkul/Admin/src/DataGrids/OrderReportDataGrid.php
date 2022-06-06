@@ -6,8 +6,9 @@ use Webkul\Ui\DataGrid\DataGrid;
 use Illuminate\Support\Facades\DB;
 use Webkul\Sales\Models\OrderAddress;
 use Webkul\Ui\DataGrid\Traits\ProvideDataGridPlus;
+use Illuminate\Support\Str;
 
-class OrderDataGrid extends DataGrid
+class OrderReportDataGrid extends DataGrid
 {
     use ProvideDataGridPlus;
 
@@ -30,26 +31,40 @@ class OrderDataGrid extends DataGrid
      *
      * @return void
      */
+		
     public function prepareQueryBuilder()
     {
+		if(Str::contains($_SERVER["HTTP_REFERER"],"start_date") || Str::contains($_SERVER["HTTP_REFERER"],"end_date") || Str::contains($_SERVER["HTTP_REFERER"],"status" )){	
+			$url=$_SERVER["APP_URL"].$_SERVER["PATH_INFO"]."?";
+			$find_filter=str_replace($url,"",$_SERVER["HTTP_REFERER"]);
+			$where_data = array();
+			parse_str( $find_filter, $where_data);
+		}
         $queryBuilder = DB::table('orders')
-            ->leftJoin('addresses as order_address_shipping', function ($leftJoin) {
-                $leftJoin->on('order_address_shipping.order_id', '=', 'orders.id')
-                    ->where('order_address_shipping.address_type', OrderAddress::ADDRESS_TYPE_SHIPPING);
-            })
-            ->leftJoin('addresses as order_address_billing', function ($leftJoin) {
-                $leftJoin->on('order_address_billing.order_id', '=', 'orders.id')
-                    ->where('order_address_billing.address_type', OrderAddress::ADDRESS_TYPE_BILLING);
-            })
-			->leftJoin('customers', function ($leftJoin) {
-                $leftJoin->on('customers.id', '=', 'orders.customer_id');
-            })->leftJoin('shipments', function ($leftJoin) {
-                $leftJoin->on('shipments.order_id', '=', 'orders.id');
-            })
-            ->addSelect('orders.id', 'orders.increment_id', 'orders.base_sub_total', 'orders.base_grand_total', 'orders.created_at', 'channel_name', 'orders.status','customers.phone','shipments.carrier_title','shipments.track_number')
-            ->addSelect(DB::raw('CONCAT(' . DB::getTablePrefix() . 'order_address_billing.first_name, " ", ' . DB::getTablePrefix() . 'order_address_billing.last_name) as billed_to'))
-            ->addSelect(DB::raw('CONCAT(' . DB::getTablePrefix() . 'order_address_shipping.first_name, " ", ' . DB::getTablePrefix() . 'order_address_shipping.last_name) as shipped_to'));
-
+		->leftJoin('addresses as order_address_shipping', function ($leftJoin) {
+			$leftJoin->on('order_address_shipping.order_id', '=', 'orders.id')
+				->where('order_address_shipping.address_type', OrderAddress::ADDRESS_TYPE_SHIPPING);
+		})
+		->leftJoin('addresses as order_address_billing', function ($leftJoin) {
+			$leftJoin->on('order_address_billing.order_id', '=', 'orders.id')
+				->where('order_address_billing.address_type', OrderAddress::ADDRESS_TYPE_BILLING);
+		})
+		->leftJoin('customers', function ($leftJoin) {
+			$leftJoin->on('customers.id', '=', 'orders.customer_id');
+		})->leftJoin('shipments', function ($leftJoin) {
+			$leftJoin->on('shipments.order_id', '=', 'orders.id');
+		})
+		->addSelect('orders.id', 'orders.increment_id', 'orders.base_sub_total', 'orders.base_grand_total', 'orders.created_at', 'channel_name', 'orders.status','customers.phone','shipments.carrier_title','shipments.track_number')
+		->addSelect(DB::raw('CONCAT(' . DB::getTablePrefix() . 'order_address_billing.first_name, " ", ' . DB::getTablePrefix() . 'order_address_billing.last_name) as billed_to'))
+		->addSelect(DB::raw('CONCAT(' . DB::getTablePrefix() . 'order_address_shipping.first_name, " ", ' . DB::getTablePrefix() . 'order_address_shipping.last_name) as shipped_to'));
+		if(!empty($where_data)){
+			if(isset($where_data["start_date"]))
+				$queryBuilder->whereRaw(DB::raw('orders.created_at >= "'.$where_data["start_date"].'"'));
+			if(isset($where_data["end_date"]))
+				$queryBuilder->whereRaw(DB::raw('orders.created_at <= "'.$where_data["end_date"].'"'));
+			if(isset($where_data["status"]) && $where_data["status"]!='')
+				$queryBuilder->whereRaw(DB::raw('orders.status = "'.$where_data["status"].'" '));
+  		}
         $this->addFilter('billed_to', DB::raw('CONCAT(' . DB::getTablePrefix() . 'order_address_billing.first_name, " ", ' . DB::getTablePrefix() . 'order_address_billing.last_name)'));
         $this->addFilter('shipped_to', DB::raw('CONCAT(' . DB::getTablePrefix() . 'order_address_shipping.first_name, " ", ' . DB::getTablePrefix() . 'order_address_shipping.last_name)'));
         $this->addFilter('increment_id', 'orders.increment_id');
