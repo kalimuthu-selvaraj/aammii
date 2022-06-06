@@ -3,7 +3,14 @@
 @section('page_title')
     {{ __('admin::app.sales.orders.title') }}
 @stop
-
+<style>
+.table table thead th{
+	padding:12px 4px !important;
+}
+.table table tbody td{
+	padding:4px !important;
+}
+</style>
 @section('content')
     <div class="content">
         <div class="page-header">
@@ -36,5 +43,5 @@
 @stop
 
 @push('scripts')
-    @include('admin::export.export', ['gridName' => app('Webkul\Admin\DataGrids\OrderDataGrid')])
+    @include('admin::export.orderexport', ['gridName' => app('Webkul\Admin\DataGrids\OrderReportExportDataGrid')])
 @endpush
