@@ -297,7 +297,8 @@ return [
         Webkul\MobikulApiTransformer\Providers\MobikulApiTransformerServiceProvider::class,
         Webkul\Mobikul\Providers\MobikulServiceProvider::class,
         Webkul\PriceDropAlert\Providers\PriceDropAlertServiceProvider::class,
-        Mesk\OrderBulkUpdate\Providers\OrderBulkUpdateServiceProvider::class
+        Mesk\OrderBulkUpdate\Providers\OrderBulkUpdateServiceProvider::class,
+        Mesk\OrderReport\Providers\OrderReportServiceProvider::class
     ],
 
     /*

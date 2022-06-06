@@ -27,7 +27,7 @@
                                 <select class="control" id="attr_name-id" name="attr_name" >
                                 @foreach ($attrList as $attr)
                                     <option
-                                        value="{{ $attr->code }}" {{  ($attr->code == "sku") ? 'selected' : '' }}>
+                                        value="{{ $attr->code }}" {{  ($attr->code == "barcode") ? 'selected' : '' }}>
                                         {{ $attr->code }}
                                     </option>
                                 @endforeach
