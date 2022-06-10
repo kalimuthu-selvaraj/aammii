@@ -187,6 +187,7 @@ return [
         'email'            => 'Email',
         'group'            => 'Group',
         'phone'            => 'Phone',
+        'customer-name'            => 'Customer Name',
 		'carrier-title'    => 'Carrier',
 		'tracking-number'  => 'Tracking Number',
         'gender'           => 'Gender',

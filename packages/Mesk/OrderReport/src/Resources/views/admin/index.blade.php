@@ -38,7 +38,7 @@
 			<form id="filter_form"  action="{{ route('admin.orderreport.index') }}" method="get">
 				<div class="account-table-content">
  					<date-filter></date-filter>
-					<div class="control-group select" style="margin-top: -95px;margin-left: 560px;width: 35%;">
+					<div class="control-group select" style="margin-top: -95px;margin-left: 560px;width: 350px;">
                         <label for="payment-method" class="required">{{ __('orderreport::app.admin.order-report.status') }} </label>
                         <select id="status" name="status" class="control" v-validate="'required'" data-vv-as="&quot;{{ __('admin::app.sales.transactions.payment-method') }}&quot;">
                              @foreach($status as $key => $value)
@@ -75,12 +75,12 @@
 <script type="text/x-template" id="date-filter-template">
 <div>
 
-<div class="control-group date"  style="width: 35%;">
+<div class="control-group date"  style="width: 350px;">
 <label>{{ __('orderreport::app.admin.order-report.from-date') }} </label>
 <date hide-remove-button="1"><input type="text" class="control" id="start_date" name="start_date" placeholder="{{ __('admin::app.dashboard.from') }}" v-model="start"/></date>
 </div>
 
-<div class="control-group date"  style="width: 35%;margin-top: -95px;margin-left: 280px;">
+<div class="control-group date"  style="width: 350px;margin-top: -95px;margin-left: 280px;">
 <label>{{ __('orderreport::app.admin.order-report.to-date') }} </label>
 <date hide-remove-button="1"><input type="text" class="control" id="end_date" name="end_date" placeholder="{{ __('admin::app.dashboard.to') }}" v-model="end"/></date>
 </div>
