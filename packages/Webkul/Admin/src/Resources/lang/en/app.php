@@ -391,6 +391,7 @@ return [
             'item-canceled'                => 'Canceled (:qty_canceled)',
             'item-refunded'                => 'Refunded (:qty_refunded)',
             'price'                        => 'Price',
+            'mrp'                        => 'Mrp',
             'total'                        => 'Total',
             'subtotal'                     => 'Subtotal',
             'shipping-handling'            => 'Shipping & Handling',
