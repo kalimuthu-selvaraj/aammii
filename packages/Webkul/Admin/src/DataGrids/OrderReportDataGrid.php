@@ -34,6 +34,7 @@ class OrderReportDataGrid extends DataGrid
 		
     public function prepareQueryBuilder()
     {
+		
 		if(Str::contains($_SERVER["HTTP_REFERER"],"start_date") || Str::contains($_SERVER["HTTP_REFERER"],"end_date") || Str::contains($_SERVER["HTTP_REFERER"],"status" )){	
 			$url=$_SERVER["APP_URL"].parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)."?";
 			$find_filter=str_replace($url,"",$_SERVER["HTTP_REFERER"]);
@@ -58,11 +59,11 @@ class OrderReportDataGrid extends DataGrid
 		->addSelect(DB::raw('CONCAT(' . DB::getTablePrefix() . 'order_address_billing.first_name, " ", ' . DB::getTablePrefix() . 'order_address_billing.last_name) as billed_to'))
 		->addSelect(DB::raw('CONCAT(' . DB::getTablePrefix() . 'order_address_shipping.first_name, " ", ' . DB::getTablePrefix() . 'order_address_shipping.last_name) as shipped_to'))
 		->addSelect(DB::raw('CONCAT(' . DB::getTablePrefix() . 'customers.first_name, " ", ' . DB::getTablePrefix() . 'customers.last_name) as customer_name'));
-		if(!empty($where_data)){
+ 		if(!empty($where_data)){
 			if(isset($where_data["start_date"]))
-				$queryBuilder->whereRaw(DB::raw('orders.created_at >= "'.$where_data["start_date"].'"'));
+				$queryBuilder->whereRaw(DB::raw('orders.created_at >= "'.date("Y-m-d H:i:s",strtotime($where_data["start_date"])).'"'));
 			if(isset($where_data["end_date"]))
-				$queryBuilder->whereRaw(DB::raw('orders.created_at <= "'.$where_data["end_date"].'"'));
+				$queryBuilder->whereRaw(DB::raw('orders.created_at <= "'.date("Y-m-d 23:59:59",strtotime($where_data["end_date"])).'"'));
 			if(isset($where_data["status"]) && $where_data["status"]!='')
 				$queryBuilder->whereRaw(DB::raw('orders.status = "'.$where_data["status"].'" '));
   		}

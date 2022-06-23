@@ -35,10 +35,11 @@ class OrderReportExportDataGrid extends DataGrid
     {
 		if(Str::contains($_SERVER["HTTP_REFERER"],"start_date") || Str::contains($_SERVER["HTTP_REFERER"],"end_date") || Str::contains($_SERVER["HTTP_REFERER"],"status" )){	
 			$url=$_SERVER["APP_URL"]."/admin/orderreport?";
- 			$find_filter=str_replace($url,"",$_SERVER["HTTP_REFERER"]);
+  			$find_filter=str_replace($url,"",$_SERVER["HTTP_REFERER"]);
 			$where_data = array();
 			parse_str( $find_filter, $where_data);
 		}
+		//echo'<pre>';print_r($where_data);exit;
         $queryBuilder = DB::table('orders')
             ->leftJoin('addresses as order_address_shipping', function ($leftJoin) {
                 $leftJoin->on('order_address_shipping.order_id', '=', 'orders.id')
@@ -59,14 +60,14 @@ class OrderReportExportDataGrid extends DataGrid
             })
             ->addSelect('orders.id as ID', 'orders.created_at as DATE',DB::raw('CONCAT(' . DB::getTablePrefix() . 'customers.first_name, " ", ' . DB::getTablePrefix() . 'customers.last_name) as "CUSTOMER_NAME"'),'customers.phone as PHONE_NO','customers.email as EMAIL','order_address_billing.address1 as ADDRESS','order_address_billing.postcode as PINCODE',
 'order_address_billing.city as CITY','order_address_billing.state as STATE','order_address_billing.country as COUNTRY',
-'order_payment.method as PAYMENT','orders.grand_total as AMOUNT','orders.shipping_amount as SHIPPING_CHARGES','shipments.carrier_title as CARRIER_TITLE','shipments.track_number as TRACKING_NUMBER', 'channel_name as CHANNEL_NAME', 'orders.status as STATUS',DB::raw(" '' as CATEGORY"),'order_items.name as PRODUCT_NAME',DB::raw(" '' as BARCODE"),DB::raw(" '' as HSNCODE"),'order_items.qty_ordered as QTY','order_items.total as ORDER_AMOUNT','order_items.tax_amount as TAX_AMOUNT','order_items.discount_amount as DISCOUNT',DB::raw(" order_items.total + order_items.tax_amount - order_items.discount_amount  as TOTAL"),'order_items.product_id as PRODUCT_ID');
+'order_payment.method as PAYMENT','orders.grand_total as AMOUNT','orders.shipping_amount as SHIPPING_CHARGES', 'channel_name as CHANNEL_NAME',DB::raw(" '' as HSNCODE"),DB::raw(" '' as CATEGORY"),DB::raw(" '' as BARCODE"),'order_items.name as PRODUCT_NAME','order_items.qty_ordered as QTY','order_items.price as MRP','order_items.total as ORDER_AMOUNT','order_items.tax_amount as TAX_AMOUNT','order_items.discount_amount as DISCOUNT',DB::raw(" order_items.total + order_items.tax_amount - order_items.discount_amount  as TOTAL"), 'orders.status as STATUS','shipments.carrier_title as CARRIER_TITLE','shipments.track_number as TRACKING_NUMBER','order_items.product_id as PRODUCT_ID');
             //->addSelect(DB::raw('CONCAT(' . DB::getTablePrefix() . 'order_address_billing.first_name, " ", ' . DB::getTablePrefix() . 'order_address_billing.last_name) as "BILLING_TO"'))
            // ->addSelect(DB::raw('CONCAT(' . DB::getTablePrefix() . 'order_address_shipping.first_name, " ", ' . DB::getTablePrefix() . 'order_address_shipping.last_name) as "SHIPPING_TO"'));
 		if(!empty($where_data)){
 			if(isset($where_data["start_date"]))
-				$queryBuilder->whereRaw(DB::raw('orders.created_at >= "'.$where_data["start_date"].'"'));
+				$queryBuilder->whereRaw(DB::raw('orders.created_at >= "'.date("Y-m-d H:i:s",strtotime($where_data["start_date"])).'"'));
 			if(isset($where_data["end_date"]))
-				$queryBuilder->whereRaw(DB::raw('orders.created_at < "'.$where_data["end_date"].'"'));
+				$queryBuilder->whereRaw(DB::raw('orders.created_at < "'.date("Y-m-d 23:59:59",strtotime($where_data["end_date"])).'"'));
 			if(isset($where_data["status"]) && $where_data["status"]!='')
 				$queryBuilder->whereRaw(DB::raw('orders.status = "'.$where_data["status"].'" '));
   		}

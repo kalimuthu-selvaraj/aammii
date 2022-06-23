@@ -323,8 +323,9 @@
                                     <td class="text-center">{{ $item->qty }}</td>
                                     <td class="text-center">{!! core()->formatBasePrice($item->base_total, true) !!}</td>
 									{{--<td class="text-center">{!! core()->formatBasePrice($item->base_tax_amount, true) !!}</td>--}}
-                                    <td class="text-center">{!! core()->formatBasePrice($item->base_total + $item->base_tax_amount, true) !!}</td>
-                                </tr>
+                                    {{--<td class="text-center">{!! core()->formatBasePrice($item->base_total + $item->base_tax_amount, true) !!}</td>--}}
+									<td class="text-center">{!! core()->formatBasePrice($item->base_total, true) !!}</td>
+								</tr>
 								@php $tax_percentage+=$invoice->order->items[$key]["tax_percent"]; @endphp
                             @endforeach
 							{{--<tr>

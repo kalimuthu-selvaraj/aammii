@@ -191,7 +191,8 @@ class PlaceOrder extends JsonResource
     
     public function authenticatePayment($details)
     {
-        include __DIR__ . '/../../../../../../vendor/wontonee/razorpay/src/razorpay-php/Razorpay.php';
+        //include __DIR__ . '/../../../../../../vendor/wontonee/razorpay/src/razorpay-php/Razorpay.php';
+       include base_path(). '/packages/Mesk/razorpay/src/razorpay-php/Razorpay.php';
 
         $api = new Api(core()->getConfigData('mobikul.mobikul.razorpay_mobile.merchant_id'), core()->getConfigData('mobikul.mobikul.razorpay_mobile.merchant_secret'));
 

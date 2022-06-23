@@ -59,10 +59,7 @@ class OrderDataGridExport implements FromView, ShouldAutoSize
 				$exportData[$key]["PAYMENT"]= $gridData->PAYMENT;
 				$exportData[$key]["AMOUNT"]= $gridData->AMOUNT;
 				$exportData[$key]["SHIPPING_CHARGES"]= $gridData->SHIPPING_CHARGES;
-				$exportData[$key]["CARRIER_TITLE"]= $gridData->CARRIER_TITLE;
-				$exportData[$key]["TRACKING_NUMBER"]=  (string) $gridData->TRACKING_NUMBER;
 				$exportData[$key]["CHANNEL_NAME"]= $gridData->CHANNEL_NAME;
-				$exportData[$key]["STATUS"]= $gridData->STATUS;
 				//$exportData[$key]["BILLING_TO"]= $gridData->BILLING_TO;
 				//$exportData[$key]["SHIPPING_TO"]= $gridData->SHIPPING_TO;
 			}else{
@@ -79,36 +76,47 @@ class OrderDataGridExport implements FromView, ShouldAutoSize
 				$exportData[$key]["PAYMENT"]= " ";
 				$exportData[$key]["AMOUNT"]= " ";
 				$exportData[$key]["SHIPPING_CHARGES"]= " ";
-				$exportData[$key]["CARRIER_TITLE"]= " ";
-				$exportData[$key]["TRACKING_NUMBER"]= " ";
-				$exportData[$key]["CHANNEL_NAME"]= " ";
-				$exportData[$key]["STATUS"]= " ";
+ 				$exportData[$key]["CHANNEL_NAME"]= " ";
 				//$exportData[$key]["BILLING_TO"]= " ";
 				//$exportData[$key]["SHIPPING_TO"]= " ";
 			}
 			$Category=DB::table('product_categories')->leftJoin('category_translations', function ($leftJoin) {
                 $leftJoin->on('category_translations.category_id', '=', 'product_categories.category_id');
             })->where('product_categories.product_id', $gridData->PRODUCT_ID)->first();
-            $exportData[$key]["CATEGORY"]= $Category->name;
-            $exportData[$key]["PRODUCT_NAME"]= $gridData->PRODUCT_NAME;
+			$Hsncode=ProductAttributeValue::where("product_id",$gridData->PRODUCT_ID)->where("attribute_id",32)->first();
+			if(isset($Hsncode->text_value))
+				$exportData[$key]["HSNCODE"]= $Hsncode->text_value;
+			else
+				$exportData[$key]["HSNCODE"]= "";
+			if(isset($Category->name))
+				$exportData[$key]["CATEGORY"]= $Category->name;
+			else
+				$exportData[$key]["CATEGORY"]= "";
 			$Barcode=ProductAttributeValue::where("product_id",$gridData->PRODUCT_ID)->where("attribute_id",31)->first();
 			
  			if(isset($Barcode->text_value))
 				$exportData[$key]["BARCODE"]= $Barcode->text_value;
 			else
 				$exportData[$key]["BARCODE"]= "";
-			$Hsncode=ProductAttributeValue::where("product_id",$gridData->PRODUCT_ID)->where("attribute_id",32)->first();
-			if(isset($Hsncode->text_value))
-				$exportData[$key]["HSNCODE"]= $Hsncode->text_value;
-			else
-				$exportData[$key]["HSNCODE"]= "";
+			$exportData[$key]["PRODUCT_NAME"]= $gridData->PRODUCT_NAME;
             //$exportData[$key]["HSNCODE"]= $gridData->HSNCODE;
             $exportData[$key]["QTY"]= $gridData->QTY;
+            $exportData[$key]["MRP"]= $gridData->MRP;
             $exportData[$key]["ORDER_AMOUNT"]= $gridData->ORDER_AMOUNT;
             $exportData[$key]["TAX_AMOUNT"]= $gridData->TAX_AMOUNT;
             $exportData[$key]["DISCOUNT"]= $gridData->DISCOUNT;
             $exportData[$key]["TOTAL"]= $gridData->TOTAL;
-			
+			if($OrderId != $gridData->ID){
+				$exportData[$key]["STATUS"]= $gridData->STATUS;
+				$exportData[$key]["CARRIER_TITLE"]=  $gridData->CARRIER_TITLE;
+				$exportData[$key]["TRACKING_NUMBER"]=  $gridData->TRACKING_NUMBER;
+			}
+			else{
+				$exportData[$key]["STATUS"]= " ";
+				$exportData[$key]["CARRIER_TITLE"]= " ";
+				$exportData[$key]["TRACKING_NUMBER"]= " ";
+			}
+
 			if($OrderId != $gridData->ID)
 				$OrderId=$gridData->ID;
         }

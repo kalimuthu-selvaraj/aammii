@@ -355,8 +355,11 @@ class OrderRepository extends Repository
             $order->base_discount_invoiced += $invoice->base_discount_amount;
         }
 
-        $order->grand_total_invoiced = $order->sub_total_invoiced + $order->shipping_invoiced + $order->tax_amount_invoiced - $order->discount_invoiced;
-        $order->base_grand_total_invoiced = $order->base_sub_total_invoiced + $order->base_shipping_invoiced + $order->base_tax_amount_invoiced - $order->base_discount_invoiced;
+        //$order->grand_total_invoiced = $order->sub_total_invoiced + $order->shipping_invoiced + $order->tax_amount_invoiced - $order->discount_invoiced;
+        //$order->base_grand_total_invoiced = $order->base_sub_total_invoiced + $order->base_shipping_invoiced + $order->base_tax_amount_invoiced - $order->base_discount_invoiced;
+		
+		$order->grand_total_invoiced = $order->sub_total_invoiced + $order->shipping_invoiced - $order->discount_invoiced;
+        $order->base_grand_total_invoiced = $order->base_sub_total_invoiced + $order->base_shipping_invoiced - $order->base_discount_invoiced;
 
         // order refund total
         $order->sub_total_refunded = $order->base_sub_total_refunded = 0;
@@ -382,8 +385,10 @@ class OrderRepository extends Repository
             $order->base_grand_total_refunded += $refund->base_adjustment_refund - $refund->base_adjustment_fee;
         }
 
-        $order->grand_total_refunded += $order->sub_total_refunded + $order->shipping_refunded + $order->tax_amount_refunded - $order->discount_refunded;
-        $order->base_grand_total_refunded += $order->base_sub_total_refunded + $order->base_shipping_refunded + $order->base_tax_amount_refunded - $order->base_discount_refunded;
+        //$order->grand_total_refunded += $order->sub_total_refunded + $order->shipping_refunded + $order->tax_amount_refunded - $order->discount_refunded;
+        //$order->base_grand_total_refunded += $order->base_sub_total_refunded + $order->base_shipping_refunded + $order->base_tax_amount_refunded - $order->base_discount_refunded;
+		$order->grand_total_refunded += $order->sub_total_refunded + $order->shipping_refunded - $order->discount_refunded;
+        $order->base_grand_total_refunded += $order->base_sub_total_refunded + $order->base_shipping_refunded - $order->base_discount_refunded;
 
         $order->save();
 
