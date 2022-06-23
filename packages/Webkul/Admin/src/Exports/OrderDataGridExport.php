@@ -103,6 +103,7 @@ class OrderDataGridExport implements FromView, ShouldAutoSize
             $exportData[$key]["QTY"]= $gridData->QTY;
             $exportData[$key]["MRP"]= $gridData->MRP;
             $exportData[$key]["ORDER_AMOUNT"]= $gridData->ORDER_AMOUNT;
+            $exportData[$key]["PRICE_WITH_OUT_TAX"]= $gridData->PRICE_WITH_OUT_TAX;
             $exportData[$key]["TAX_AMOUNT"]= $gridData->TAX_AMOUNT;
             $exportData[$key]["DISCOUNT"]= $gridData->DISCOUNT;
             $exportData[$key]["TOTAL"]= $gridData->TOTAL;
