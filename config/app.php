@@ -284,7 +284,7 @@ return [
         Webkul\Marketing\Providers\MarketingServiceProvider::class,
 
         // Razorpay provider
-        Wontonee\Razorpay\Providers\RazorpayServiceProvider::class,
+        Mesk\razorpay\Providers\RazorpayServiceProvider::class,
 
         // Overwrite Velocity css and blade files
         Mesk\VelocityOverwrite\Providers\VelocityOverwriteServiceProvider::class,
