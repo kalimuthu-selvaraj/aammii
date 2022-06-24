@@ -84,8 +84,25 @@
 
                             <span class="control-error" v-if="errors.has('email')" v-text="errors.first('email')"></span>
                         </div>
+						
+						{!! view_render_event('bagisto.shop.customers.signup_form_controls.email.after') !!}
 
-                        {!! view_render_event('bagisto.shop.customers.signup_form_controls.email.after') !!}
+                        <div class="control-group forgot-input" :class="[errors.has('phone') ? 'has-error' : '']">
+                            <label for="phone" class="required label-style">
+                                {{ __('shop::app.customer.signup-form.phone') }}
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-style"
+                                name="phone"
+                                v-validate="'required|numeric|digits:10'"
+                                value="{{ old('phone') }}"
+                                data-vv-as="&quot;{{ __('shop::app.customer.signup-form.phone') }}&quot;" />
+
+                            <span class="control-error" v-if="errors.has('phone')" v-text="errors.first('phone')"></span>
+
+                        {!! view_render_event('bagisto.shop.customers.signup_form_controls.phone.after') !!}
 
                         <div class="control-group forgot-input" :class="[errors.has('password') ? 'has-error' : '']">
                             <label for="password" class="required label-style">
