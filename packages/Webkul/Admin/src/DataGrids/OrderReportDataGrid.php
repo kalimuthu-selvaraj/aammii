@@ -58,7 +58,7 @@ class OrderReportDataGrid extends DataGrid
 		->addSelect('orders.id', 'orders.increment_id', 'orders.base_sub_total', 'orders.base_grand_total', 'orders.created_at', 'channel_name', 'orders.status','customers.phone','shipments.carrier_title','shipments.track_number')
 		->addSelect(DB::raw('CONCAT(' . DB::getTablePrefix() . 'order_address_billing.first_name, " ", ' . DB::getTablePrefix() . 'order_address_billing.last_name) as billed_to'))
 		->addSelect(DB::raw('CONCAT(' . DB::getTablePrefix() . 'order_address_shipping.first_name, " ", ' . DB::getTablePrefix() . 'order_address_shipping.last_name) as shipped_to'))
-		->addSelect(DB::raw('CONCAT(' . DB::getTablePrefix() . 'customers.first_name, " ", ' . DB::getTablePrefix() . 'customers.last_name) as customer_name'));
+		->addSelect(DB::raw('CONCAT(' . DB::getTablePrefix() . 'orders.customer_first_name, " ", ' . DB::getTablePrefix() . 'orders.customer_last_name) as customer_name'));
  		if(!empty($where_data)){
 			if(isset($where_data["start_date"]))
 				$queryBuilder->whereRaw(DB::raw('orders.created_at >= "'.date("Y-m-d H:i:s",strtotime($where_data["start_date"])).'"'));
