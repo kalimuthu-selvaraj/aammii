@@ -118,6 +118,7 @@ return [
             'firstname' => 'First Name',
             'lastname' => 'Last Name',
             'email' => 'Email',
+            'phone' => 'Phone No',
             'password' => 'Password',
             'confirm_pass' => 'Confirm Password',
             'button_title' => 'Register',
