@@ -167,6 +167,23 @@ class InvoiceController extends Controller
             ->setPaper('a4')
             ->download('invoice-' . $invoice->created_at->format('d-m-Y') . '.pdf');
     }
+	
+	public function orderprint($id)
+    {
+        $invoice = $this->invoiceRepository->where('order_id', '=', $id)->firstOrFail();
+		
+		$shipmentDetails=$this->shipmentRepository->where("order_id",$invoice->order_id)->first();
+		if(isset($shipmentDetails->carrier_title))
+			$invoice->carrier_title =$shipmentDetails->carrier_title;
+		if(isset($shipmentDetails->track_number))
+			$invoice->track_number =$shipmentDetails->track_number;
+
+        $html = view('admin::sales.invoices.pdf', compact('invoice'))->render();
+
+        return PDF::loadHTML($this->adjustArabicAndPersianContent($html))
+            ->setPaper('a4')
+            ->download('invoice-' . $invoice->created_at->format('d-m-Y') . '.pdf');
+    }
 
     /**
      * Adjust arabic and persian content.
