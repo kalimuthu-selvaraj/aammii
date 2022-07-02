@@ -227,10 +227,14 @@ class OrderDetails extends JsonResource
         }
         $this->orderData['itemList'] = $this->orderItems;
 
-        $this->taxTotal             = $order->tax_amount;
-        $this->baseTaxTotal         = $order->base_tax_amount;
-        $this->grandTotal           = $this->subTotal + $this->taxTotal - $this->discountAmount;
-        $this->baseGrandTotal       = $this->baseSubTotal + $this->baseTaxTotal - $this->baseDiscountAmount;
+        //$this->taxTotal             = $order->tax_amount;
+        //$this->baseTaxTotal         = $order->base_tax_amount;
+		$this->taxTotal             = 0;
+        $this->baseTaxTotal         = 0;
+        //$this->grandTotal           = $this->subTotal + $this->taxTotal - $this->discountAmount;
+        $this->grandTotal           = $this->subTotal - $this->discountAmount;
+        //$this->baseGrandTotal       = $this->baseSubTotal + $this->baseTaxTotal - $this->baseDiscountAmount;
+        $this->baseGrandTotal       = $this->baseSubTotal - $this->baseDiscountAmount;
         
         $this->shippingAmount       = $order->shipping_amount;
         $this->baseShippingAmount   = $order->base_shipping_amount;
