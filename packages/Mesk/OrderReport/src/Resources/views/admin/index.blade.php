@@ -14,8 +14,9 @@
 	.table table thead th{
 		padding:12px 5px !important;
 	}
-	.icon.export-icon{
+	.icon.print-icon{
 		margin-left: 15px !important;
+		opacity: 0.4 !important;
 		height: 24px !important;
 		width: 24px !important;
 	}

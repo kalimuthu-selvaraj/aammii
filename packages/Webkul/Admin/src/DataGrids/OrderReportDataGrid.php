@@ -228,7 +228,7 @@ class OrderReportDataGrid extends DataGrid
             'title'  => trans('admin::app.datagrid.invoice_print'),
             'method' => 'GET',
             'route'  => 'admin.sales.invoices.orderprint',
-            'icon'   => 'icon export-icon',
+            'icon'   => 'icon print-icon',
         ]);
     }
 }
