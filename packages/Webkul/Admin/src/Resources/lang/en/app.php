@@ -251,6 +251,7 @@ return [
         'edit'             => 'Edit',
         'delete'           => 'Delete',
         'view'             => 'View',
+        'invoice_print'    => 'Invoice Print',
         'rtl'              => 'RTL',
         'ltr'              => 'LTR',
         'update-status'    => 'Update Status',

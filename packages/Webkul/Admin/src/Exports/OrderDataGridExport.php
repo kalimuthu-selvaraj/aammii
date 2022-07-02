@@ -59,6 +59,10 @@ class OrderDataGridExport implements FromView, ShouldAutoSize
 				$exportData[$key]["PAYMENT"]= $gridData->PAYMENT;
 				$exportData[$key]["AMOUNT"]= $gridData->AMOUNT;
 				$exportData[$key]["SHIPPING_CHARGES"]= $gridData->SHIPPING_CHARGES;
+				if( $gridData->SHIPPING_METHOD == 'tablerate_courier-charge')
+					$exportData[$key]["SHIPPING_METHOD"]= 'Courier';
+				else
+					$exportData[$key]["SHIPPING_METHOD"]= 'Transport';
 				$exportData[$key]["CHANNEL_NAME"]= $gridData->CHANNEL_NAME;
 				//$exportData[$key]["BILLING_TO"]= $gridData->BILLING_TO;
 				//$exportData[$key]["SHIPPING_TO"]= $gridData->SHIPPING_TO;
@@ -75,6 +79,7 @@ class OrderDataGridExport implements FromView, ShouldAutoSize
 				$exportData[$key]["COUNTRY"]= " ";
 				$exportData[$key]["PAYMENT"]= " ";
 				$exportData[$key]["AMOUNT"]= " ";
+				$exportData[$key]["SHIPPING_METHOD"]= " ";
 				$exportData[$key]["SHIPPING_CHARGES"]= " ";
  				$exportData[$key]["CHANNEL_NAME"]= " ";
 				//$exportData[$key]["BILLING_TO"]= " ";
