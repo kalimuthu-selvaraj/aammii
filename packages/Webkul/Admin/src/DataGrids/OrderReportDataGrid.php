@@ -216,11 +216,19 @@ class OrderReportDataGrid extends DataGrid
      */
     public function prepareActions()
     {
+		
         $this->addAction([
             'title'  => trans('admin::app.datagrid.view'),
             'method' => 'GET',
             'route'  => 'admin.sales.orders.view',
             'icon'   => 'icon eye-icon',
+        ]);
+		
+		$this->addAction([
+            'title'  => trans('admin::app.datagrid.invoice_print'),
+            'method' => 'GET',
+            'route'  => 'admin.sales.invoices.orderprint',
+            'icon'   => 'icon export-icon',
         ]);
     }
 }

@@ -224,6 +224,10 @@ Route::group(['middleware' => ['web', 'admin_locale']], function () {
                 Route::get('/invoices/print/{id}', 'Webkul\Admin\Http\Controllers\Sales\InvoiceController@print')->defaults('_config', [
                     'view' => 'admin::sales.invoices.print',
                 ])->name('admin.sales.invoices.print');
+				Route::get('/invoices/orderprint/{id}', 'Webkul\Admin\Http\Controllers\Sales\InvoiceController@orderprint')->defaults('_config', [
+                    'view' => 'admin::sales.invoices.print',
+                ])->name('admin.sales.invoices.orderprint');
+
 
 
                 // Sales Shipments Routes
