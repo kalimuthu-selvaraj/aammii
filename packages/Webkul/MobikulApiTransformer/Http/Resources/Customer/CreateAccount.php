@@ -78,6 +78,7 @@ class CreateAccount extends JsonResource
             'api_token'         => Str::random(80),
             'token'             => md5(uniqid(rand(), true)),
             'email'             => $this['email'],
+            'phone'             => $this['phone'],
             'password'          => bcrypt($this['password']),
             'channel_id'        => $channel->id,
             'is_verified'       => core()->getConfigData('customer.settings.email.verification') ? 0 : 1,
