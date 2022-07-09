@@ -122,11 +122,15 @@ class Wishlist extends JsonResource
             $this->baseSubTotal = (float) $this->baseSubTotal + $item->base_total;
         }
 
-        $this->taxTotal = Tax::getTaxTotal($cart, false);
-        $this->baseTaxTotal = Tax::getTaxTotal($cart, true);
+        //$this->taxTotal = Tax::getTaxTotal($cart, false);
+        $this->taxTotal = 0;
+        //$this->baseTaxTotal = Tax::getTaxTotal($cart, true);
+        $this->baseTaxTotal = 0;
 
-        $this->grandTotal = $this->subTotal + $this->taxTotal - $this->discountAmount;
-        $this->baseGrandTotal = $this->baseSubTotal + $this->baseTaxTotal - $this->baseDiscountAmount;
+        //$this->grandTotal = $this->subTotal + $this->taxTotal - $this->discountAmount;
+        $this->grandTotal = $this->subTotal - $this->discountAmount;
+        //$this->baseGrandTotal = $this->baseSubTotal + $this->baseTaxTotal - $this->baseDiscountAmount;
+        $this->baseGrandTotal = $this->baseSubTotal - $this->baseDiscountAmount;
 
         if ($shipping = $cart->selected_shipping_rate) {
             $this->shippingTotal        = $shipping->price;

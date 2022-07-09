@@ -224,6 +224,10 @@ Route::group(['middleware' => ['web', 'admin_locale']], function () {
                 Route::get('/invoices/print/{id}', 'Webkul\Admin\Http\Controllers\Sales\InvoiceController@print')->defaults('_config', [
                     'view' => 'admin::sales.invoices.print',
                 ])->name('admin.sales.invoices.print');
+				Route::get('/invoices/orderprint/{id}', 'Webkul\Admin\Http\Controllers\Sales\InvoiceController@orderprint')->defaults('_config', [
+                    'view' => 'admin::sales.invoices.print',
+                ])->name('admin.sales.invoices.orderprint');
+
 
 
                 // Sales Shipments Routes
@@ -705,6 +709,9 @@ Route::group(['middleware' => ['web', 'admin_locale']], function () {
 
             //DataGrid Export
             Route::post(config('app.admin_url') . '/export', 'Webkul\Admin\Http\Controllers\ExportController@export')->name('admin.datagrid.export');
+            
+			//OrderDataGrid Export
+			Route::post(config('app.admin_url') . '/orderexport', 'Webkul\Admin\Http\Controllers\ExportController@orderexport')->name('admin.datagrid.orderexport');
 
             Route::prefix('promotions')->group(function () {
                 Route::get('cart-rules', 'Webkul\CartRule\Http\Controllers\CartRuleController@index')->defaults('_config', [

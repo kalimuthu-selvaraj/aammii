@@ -185,12 +185,12 @@
                 </div>
             @endif
 
-            <div>
+            {{--<div>
                 <span>{{ __('shop::app.mail.order.tax') }}</span>
                 <span id="taxamount" style="float: right;">
                     {{ core()->formatPrice($invoice->tax_amount, $order->order_currency_code) }}
                 </span>
-            </div>
+            </div>--}}
 
             @if ($invoice->discount_amount > 0)
                 <div>

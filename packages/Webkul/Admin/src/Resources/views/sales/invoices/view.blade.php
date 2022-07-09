@@ -175,12 +175,14 @@
                                     <table>
                                         <thead>
                                             <tr>
-                                                <th>{{ __('admin::app.sales.orders.SKU') }}</th>
+											{{--<th>{{ __('admin::app.sales.orders.SKU') }}</th>--}}
+												<th>{{ __('admin::app.sales.orders.BARCODE') }}</th>
+												<th>{{ __('admin::app.sales.orders.HSNCODE') }}</th>
                                                 <th>{{ __('admin::app.sales.orders.product-name') }}</th>
                                                 <th>{{ __('admin::app.sales.orders.price') }}</th>
                                                 <th>{{ __('admin::app.sales.orders.qty') }}</th>
                                                 <th>{{ __('admin::app.sales.orders.subtotal') }}</th>
-                                                <th>{{ __('admin::app.sales.orders.tax-amount') }}</th>
+													{{--<th>{{ __('admin::app.sales.orders.tax-amount') }}</th>--}}
                                                 @if ($invoice->base_discount_amount > 0)
                                                     <th>{{ __('admin::app.sales.orders.discount-amount') }}</th>
                                                 @endif
@@ -192,8 +194,9 @@
 
                                             @foreach ($invoice->items as $item)
                                                 <tr>
-                                                    <td>{{ $item->getTypeInstance()->getOrderedItem($item)->sku }}</td>
-
+												{{--<td>{{ $item->getTypeInstance()->getOrderedItem($item)->sku }}</td>--}}
+													<td>{{ $item->getTypeInstance()->getBarcode($item) }}</td>
+													<td>{{ $item->getTypeInstance()->getHsncode($item) }}</td>
                                                     <td>
                                                         {{ $item->name }}
 
@@ -214,13 +217,14 @@
 
                                                     <td>{{ core()->formatBasePrice($item->base_total) }}</td>
 
-                                                    <td>{{ core()->formatBasePrice($item->base_tax_amount) }}</td>
+													{{--<td>{{ core()->formatBasePrice($item->base_tax_amount) }}</td>--}}
 
                                                     @if ($invoice->base_discount_amount > 0)
                                                         <td>{{ core()->formatBasePrice($item->base_discount_amount) }}</td>
                                                     @endif
 
-                                                    <td>{{ core()->formatBasePrice($item->base_total + $item->base_tax_amount - $item->base_discount_amount) }}</td>
+                                                    {{--<td>{{ core()->formatBasePrice($item->base_total + $item->base_tax_amount - $item->base_discount_amount) }}</td>--}}
+													<td>{{ core()->formatBasePrice($item->base_total - $item->base_discount_amount) }}</td>
                                                 </tr>
                                             @endforeach
 
@@ -241,11 +245,11 @@
                                         <td>{{ core()->formatBasePrice($invoice->base_shipping_amount) }}</td>
                                     </tr>
 
-                                    <tr>
+                                    {{--<tr>
                                         <td>{{ __('admin::app.sales.orders.tax') }}</td>
                                         <td>-</td>
                                         <td>{{ core()->formatBasePrice($invoice->base_tax_amount) }}</td>
-                                    </tr>
+                                    </tr>--}}
 
                                     @if ($invoice->base_discount_amount > 0)
                                         <tr>

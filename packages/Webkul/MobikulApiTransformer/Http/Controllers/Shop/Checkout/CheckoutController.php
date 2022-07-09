@@ -516,12 +516,15 @@ class CheckoutController extends Controller
             //Process Razorpay Order
             $shipping_rate = $cart->selected_shipping_rate ? $cart->selected_shipping_rate->price : 0; // shipping rate
             $discount_amount = $cart->discount_amount; // discount amount
-            $total_amount =  ($cart->sub_total + $cart->tax_total + $shipping_rate) - $discount_amount; // total amount
+            //$total_amount =  ($cart->sub_total + $cart->tax_total + $shipping_rate) - $discount_amount; // total amount
+            $total_amount =  ($cart->sub_total + $shipping_rate) - $discount_amount; // total amount
 
-            include __DIR__ . '/../../../../../../../vendor/wontonee/razorpay/src/razorpay-php/Razorpay.php';
+            //include __DIR__ . '/../../../../../../../vendor/wontonee/razorpay/src/razorpay-php/Razorpay.php';
 
             // include __DIR__ . '/../../razorpay-php/Razorpay.php';
-
+			
+			 include base_path(). '/packages/Mesk/razorpay/src/razorpay-php/Razorpay.php';
+			
             $api = new Api(core()->getConfigData('mobikul.mobikul.razorpay_mobile.merchant_id'), core()->getConfigData('mobikul.mobikul.razorpay_mobile.merchant_secret'));
 
             $orderData = [

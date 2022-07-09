@@ -912,6 +912,18 @@ abstract class AbstractType
     {
         return $item;
     }
+	
+	public function getBarcode($item)
+    {
+		$attributeValue=$this->attributeValueRepository->where("product_id",$item->product_id)->where("attribute_id",31)->first();
+        return isset($attributeValue->text_value) ? $attributeValue->text_value : "";
+    }
+	
+	public function getHsncode($item)
+    {
+		$attributeValue=$this->attributeValueRepository->where("product_id",$item->product_id)->where("attribute_id",32)->first();
+        return isset($attributeValue->text_value) ? $attributeValue->text_value : "";
+    }
 
     /**
      * Get product base image.

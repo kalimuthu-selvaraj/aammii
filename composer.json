@@ -112,7 +112,9 @@
             "Webkul\\MobikulApiTransformer\\": "packages/Webkul/MobikulApiTransformer",
             "Webkul\\Mobikul\\": "packages/Webkul/Mobikul/src",
             "Webkul\\PriceDropAlert\\": "packages/Webkul/PriceDropAlert/src",
-            "Mesk\\OrderBulkUpdate\\": "packages/Mesk/OrderBulkUpdate/src"
+            "Mesk\\OrderBulkUpdate\\": "packages/Mesk/OrderBulkUpdate/src",
+            "Mesk\\OrderReport\\": "packages/Mesk/OrderReport/src",
+            "Mesk\\razorpay\\": "packages/Mesk/razorpay/src"
 
         }
     },

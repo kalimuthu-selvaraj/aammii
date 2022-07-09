@@ -277,8 +277,10 @@ class InvoiceRepository extends Repository
             }
         }
 
-        $invoice->grand_total = $invoice->sub_total + $invoice->tax_amount + $invoice->shipping_amount - $invoice->discount_amount;
-        $invoice->base_grand_total = $invoice->base_sub_total + $invoice->base_tax_amount + $invoice->base_shipping_amount - $invoice->base_discount_amount;
+        //$invoice->grand_total = $invoice->sub_total + $invoice->tax_amount + $invoice->shipping_amount - $invoice->discount_amount;
+        //$invoice->base_grand_total = $invoice->base_sub_total + $invoice->base_tax_amount + $invoice->base_shipping_amount - $invoice->base_discount_amount;
+		$invoice->grand_total = $invoice->sub_total + $invoice->shipping_amount - $invoice->discount_amount;
+        $invoice->base_grand_total = $invoice->base_sub_total + $invoice->base_shipping_amount - $invoice->base_discount_amount;
 
         $invoice->save();
 

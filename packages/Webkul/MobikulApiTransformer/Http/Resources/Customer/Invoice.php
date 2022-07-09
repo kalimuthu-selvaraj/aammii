@@ -142,9 +142,11 @@ class Invoice extends JsonResource
                 'rowTotal'          => '', //pending about rowTotal amount
             ];
         }
-        
-        $this->grandTotal           = (float) ($this->subTotal + $this->taxTotal + $this->shippingAmount - $this->discountAmount);
-        $this->baseGrandTotal       = (float) ($this->baseSubTotal + $this->baseTaxTotal + $this->baseShippingAmount - $this->baseDiscountAmount);
+        $this->taxTotal = 0;
+        $this->baseTaxTotal = 0;
+        //$this->grandTotal           = (float) ($this->subTotal + $this->taxTotal + $this->shippingAmount - $this->discountAmount);
+        $this->grandTotal           = (float) ($this->subTotal+ $this->shippingAmount - $this->discountAmount);
+        $this->baseGrandTotal       = (float) ($this->baseSubTotal + $this->baseShippingAmount - $this->baseDiscountAmount);
         
         $this->invoiceTotals = [
             [

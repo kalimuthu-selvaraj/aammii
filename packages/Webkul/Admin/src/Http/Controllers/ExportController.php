@@ -3,6 +3,7 @@
 namespace Webkul\Admin\Http\Controllers;
 
 use Webkul\Admin\Exports\DataGridExport;
+use Webkul\Admin\Exports\OrderDataGridExport;
 use Excel;
 
 class ExportController extends Controller
@@ -54,4 +55,37 @@ class ExportController extends Controller
 
         return redirect()->back();
     }
+	
+	public function orderexport()
+    {
+        $criteria = request()->all();
+        $format = $criteria['format'];
+
+        $gridName = explode('\\', $criteria['gridName']);
+
+        $path = '\Webkul\Admin\DataGrids'.'\\'.last($gridName);
+
+        $gridInstance = new $path;
+        
+        $records = $gridInstance->export();
+
+        if (! count($records)) {
+            session()->flash('warning', trans('admin::app.export.no-records'));
+
+            return redirect()->back();
+        }
+
+        if ($format == 'csv') {
+            return Excel::download(new OrderDataGridExport($records), last($gridName).'.csv');
+        }
+
+        if ($format == 'xls') {
+            return Excel::download(new OrderDataGridExport($records), last($gridName).'.xlsx');
+        }
+
+        session()->flash('warning', trans('admin::app.export.illegal-format'));
+
+        return redirect()->back();
+    }
+	
 }
