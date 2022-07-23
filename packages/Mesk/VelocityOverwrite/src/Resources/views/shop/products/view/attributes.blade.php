@@ -38,7 +38,7 @@
                                     </a>
                                 </td>
                             @else
-                                <td>{{ $attribute['value'] }}</td>
+                                <td>{!! $attribute['value'] !!}</td>
                             @endif
                         </tr>
                     @endforeach
